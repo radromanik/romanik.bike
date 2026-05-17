@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zwischen Himmel und Erde · Romanik-Radtour Weinstraße</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5efe4;
+      --warm-white: #faf7f1;
+      --bark: #4e2e1e;
+      --bark-mid: #6b4232;
+      --bark-light: #8a5c46;
+      --moss: #5a6e48;
+      --moss-light: #7a9060;
+      --stone: #9e8a72;
+      --stone-light: #c4b09a;
+      --stone-pale: #ddd0be;
+      --rust: #b05a22;
+      --rust-light: #cc7a42;
+      --text-dark: #251510;
+      --text-mid: #5a3d2a;
+      --text-light: #8a6a52;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Crimson Pro', serif; background: var(--warm-white); color: var(--text-dark); overflow-x: hidden; }
+
+    #lang-bar { background: var(--bark); padding: 7px 48px; display: flex; justify-content: flex-end; gap: 12px; position: sticky; top: 0; z-index: 200; }
+    .lang-btn { background: none; border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); padding: 3px 11px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; }
+    .lang-btn.active, .lang-btn:hover { background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.55); }
+
+    nav { background: var(--cream); padding: 18px 48px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--stone-pale); position: sticky; top: 33px; z-index: 190; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--bark); text-decoration: none; }
+    .nav-logo span { font-size: 0.68rem; font-family: 'Lato', sans-serif; color: var(--stone); letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-top: 2px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-mid); font-family: 'Lato', sans-serif; font-size: 0.76rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--rust); }
+
+    .hero { position: relative; height: 94vh; min-height: 580px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 80px 80px; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(165deg, rgba(30,15,5,0.1) 0%, rgba(30,15,5,0.68) 70%), url('https://images.unsplash.com/photo-1560343776-97e7d202ff0e?w=1800&q=85') center/cover no-repeat; }
+    .hero-content { position: relative; z-index: 2; max-width: 680px; animation: fadeUp 1.1s cubic-bezier(0.22,1,0.36,1) both; }
+    .hero-eyebrow { font-family: 'Lato', sans-serif; font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--stone-light); margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--rust-light); }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 5.5vw, 4.4rem); color: #fff; line-height: 1.1; margin-bottom: 8px; font-weight: 400; }
+    .hero h1 em { font-style: italic; color: var(--rust-light); }
+    .hero-sub { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 1.8vw, 1.25rem); color: rgba(255,255,255,0.6); font-style: italic; margin-bottom: 24px; }
+    .hero-desc { color: rgba(255,255,255,0.8); font-size: 1.08rem; line-height: 1.72; margin-bottom: 38px; font-weight: 300; max-width: 540px; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--rust); color: #fff; padding: 13px 32px; text-decoration: none; font-family: 'Lato', sans-serif; font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn-primary:hover { background: var(--rust-light); }
+    .btn-outline { display: inline-block; border: 1px solid rgba(255,255,255,0.4); color: rgba(255,255,255,0.88); padding: 13px 32px; text-decoration: none; font-family: 'Lato', sans-serif; font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; transition: all 0.2s; }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+    .stats-strip { background: rgba(78,46,30,0.95); display: flex; }
+    .stat { padding: 18px 0; flex: 1; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--rust-light); display: block; }
+    .stat-lbl { font-family: 'Lato', sans-serif; font-size: 0.66rem; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 2px; display: block; }
+
+    .sec { padding: 96px 80px; }
+    .sec-label { font-family: 'Lato', sans-serif; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rust); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .sec-label::before { content: ''; width: 22px; height: 1px; background: var(--rust); }
+    .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.7rem); color: var(--bark); line-height: 1.18; margin-bottom: 16px; font-weight: 400; }
+    .sec-intro { color: var(--text-light); font-size: 1.05rem; line-height: 1.78; max-width: 580px; font-weight: 300; }
+    .divider { width: 40px; height: 1px; background: var(--moss-light); margin: 20px 0; }
+
+    #route { background: var(--warm-white); }
+    .route-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 80px; align-items: start; margin-top: 56px; }
+    .station { display: flex; gap: 22px; padding: 26px 0; border-bottom: 1px solid var(--stone-pale); opacity: 0; transform: translateX(-18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .station.visible { opacity: 1; transform: none; }
+    .station:first-child { padding-top: 0; }
+    .stn-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--stone-pale); line-height: 1; flex-shrink: 0; width: 40px; text-align: right; font-weight: 700; }
+    .stn-sub { font-family: 'Lato', sans-serif; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rust); margin-bottom: 5px; }
+    .stn-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--bark); margin-bottom: 7px; font-weight: 600; }
+    .stn-desc { color: var(--text-light); font-size: 0.98rem; line-height: 1.65; font-weight: 300; }
+    .stn-note { margin-top: 8px; font-size: 0.85rem; color: var(--stone); font-style: italic; }
+
+    .tour-panel { background: var(--bark); padding: 40px; color: #fff; position: sticky; top: 110px; }
+    .panel-h { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 24px; font-weight: 400; color: rgba(255,255,255,0.88); }
+    .drow { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); gap: 12px; }
+    .dkey { font-family: 'Lato', sans-serif; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.42); flex-shrink: 0; }
+    .dval { color: rgba(255,255,255,0.82); font-size: 0.92rem; font-weight: 300; text-align: right; }
+    .price-box { margin-top: 24px; text-align: center; padding: 20px; border: 1px solid rgba(255,255,255,0.13); }
+    .price-lbl { font-family: 'Lato', sans-serif; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.38); margin-bottom: 4px; }
+    .price-big { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--rust-light); }
+    .price-note { font-size: 0.85rem; color: rgba(255,255,255,0.38); font-weight: 300; margin-top: 4px; }
+    .incl { list-style: none; margin-top: 20px; }
+    .incl li { padding: 6px 0; color: rgba(255,255,255,0.58); font-size: 0.88rem; font-weight: 300; display: flex; gap: 8px; line-height: 1.4; }
+    .incl li::before { content: '✓'; color: var(--moss-light); flex-shrink: 0; }
+    .notincl { list-style: none; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px; }
+    .notincl li { padding: 5px 0; color: rgba(255,255,255,0.38); font-size: 0.82rem; font-weight: 300; display: flex; gap: 8px; line-height: 1.4; }
+    .notincl li::before { content: '–'; color: rgba(255,255,255,0.25); flex-shrink: 0; }
+    .panel-cta { display: block; text-align: center; margin-top: 18px; background: var(--rust); color: #fff; padding: 13px; text-decoration: none; font-family: 'Lato', sans-serif; font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s; }
+    .panel-cta:hover { background: var(--rust-light); }
+
+    #about { background: var(--cream); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-top: 56px; }
+    .about-img { height: 480px; background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80') center/cover; position: relative; }
+    .about-img::after { content: ''; position: absolute; bottom: -14px; right: -14px; width: 55%; height: 55%; border: 1px solid var(--stone-pale); z-index: -1; }
+    .about-text p { color: var(--text-mid); font-size: 1.06rem; line-height: 1.8; margin-bottom: 18px; font-weight: 300; }
+    .certs { display: flex; gap: 24px; margin-top: 28px; flex-wrap: wrap; }
+    .cert { border-left: 2px solid var(--rust); padding-left: 13px; }
+    .cert-lbl { font-family: 'Lato', sans-serif; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone); margin-bottom: 2px; }
+    .cert-val { font-family: 'Playfair Display', serif; font-size: 0.98rem; color: var(--bark); }
+
+    #buchen { background: var(--warm-white); }
+    .book-grid { display: grid; grid-template-columns: 1fr 1.55fr; gap: 80px; align-items: start; margin-top: 56px; }
+    .book-aside p { color: var(--text-light); font-size: 1.02rem; line-height: 1.75; margin-bottom: 24px; font-weight: 300; }
+    .ilist { list-style: none; }
+    .ilist li { padding: 10px 0; border-bottom: 1px solid var(--stone-pale); color: var(--text-mid); font-size: 0.96rem; display: flex; gap: 10px; line-height: 1.5; }
+    .ilist li::before { content: '·'; color: var(--moss); font-size: 1.3rem; line-height: 1; flex-shrink: 0; }
+    .contact-box { margin-top: 28px; background: var(--cream); padding: 24px; border: 1px solid var(--stone-pale); }
+    .contact-box h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--bark); margin-bottom: 12px; font-weight: 600; }
+    .contact-box a { color: var(--rust); text-decoration: none; }
+    .contact-box a:hover { color: var(--rust-light); }
+    .contact-box p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+    .form-card { background: #fff; border: 1px solid var(--stone-pale); padding: 44px; }
+    .form-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--bark); margin-bottom: 28px; font-weight: 400; }
+    .fg { margin-bottom: 18px; }
+    .fg label { display: block; font-family: 'Lato', sans-serif; font-size: 0.68rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--stone); margin-bottom: 6px; }
+    .fg input, .fg select, .fg textarea { width: 100%; padding: 11px 14px; border: 1px solid var(--stone-pale); background: var(--warm-white); font-family: 'Crimson Pro', serif; font-size: 1rem; color: var(--text-dark); outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--moss); }
+    .fg textarea { resize: vertical; min-height: 96px; }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .fsub { width: 100%; background: var(--rust); color: #fff; border: none; padding: 15px; font-family: 'Lato', sans-serif; font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; margin-top: 6px; }
+    .fsub:hover { background: var(--rust-light); }
+    .form-note { font-size: 0.82rem; color: var(--text-light); margin-top: 10px; font-weight: 300; }
+    .success { display: none; text-align: center; padding: 56px 20px; }
+    .success .ck { width: 52px; height: 52px; border: 2px solid var(--moss); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 1.4rem; color: var(--moss); }
+    .success h3 { font-family: 'Playfair Display', serif; font-size: 1.45rem; color: var(--bark); margin-bottom: 8px; font-weight: 400; }
+    .success p { color: var(--text-light); font-size: 0.98rem; font-weight: 300; }
+
+    footer { background: var(--text-dark); padding: 44px 80px; display: flex; justify-content: space-between; align-items: center; color: rgba(255,255,255,0.38); font-family: 'Lato', sans-serif; font-size: 0.76rem; }
+    .ft-brand { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: rgba(255,255,255,0.72); display: block; margin-bottom: 5px; }
+    footer a { color: rgba(255,255,255,0.33); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--rust-light); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    [data-lang] { display: none; }
+    [data-lang].active { display: block; }
+    span[data-lang].active { display: inline; }
+
+    @media (max-width: 960px) {
+      .sec, #about, #buchen { padding: 60px 24px; }
+      nav { padding: 14px 24px; top: 29px; }
+      #lang-bar { padding: 7px 24px; }
+      .hero { padding: 0 24px 56px; }
+      .nav-links { display: none; }
+      .route-grid, .about-grid, .book-grid { grid-template-columns: 1fr; gap: 36px; }
+      .about-img { height: 280px; }
+      .tour-panel { position: static; }
+      .stats-strip { flex-wrap: wrap; }
+      .stat { flex: 1 1 50%; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      footer { flex-direction: column; gap: 14px; text-align: center; padding: 36px 24px; }
+      .form-card { padding: 24px; }
+      .frow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="lang-bar">
+  <button class="lang-btn active" onclick="setLang('de')">DE</button>
+  <button class="lang-btn" onclick="setLang('it')">IT</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+</div>
+
+<nav>
+  <a href="#" class="nav-logo">
+    Zwischen Himmel und Erde
+    <span>
+      <span data-lang="de" class="active">Romanik-Radtour · Südtiroler Weinstraße</span>
+      <span data-lang="it">Tour romanica in bici · Strada del Vino</span>
+      <span data-lang="en">Romanesque Cycling Tour · South Tyrolean Wine Road</span>
+    </span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#route"><span data-lang="de" class="active">Die Tour</span><span data-lang="it">La Tour</span><span data-lang="en">The Tour</span></a></li>
+    <li><a href="#about"><span data-lang="de" class="active">Ihr Guide</span><span data-lang="it">La Guida</span><span data-lang="en">Your Guide</span></a></li>
+    <li><a href="#buchen"><span data-lang="de" class="active">Buchen</span><span data-lang="it">Prenota</span><span data-lang="en">Book</span></a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">
+      <span data-lang="de" class="active">Südtiroler Weinstraße · Geführte E-Bike-Tour</span>
+      <span data-lang="it">Strada del Vino Alto Adige · Tour guidata in e-bike</span>
+      <span data-lang="en">South Tyrolean Wine Road · Guided E-Bike Tour</span>
+    </p>
+    <h1><span data-lang="de" class="active">Zwischen<br/><em>Himmel und Erde</em></span><span data-lang="it">Tra<br/><em>Cielo e Terra</em></span><span data-lang="en">Between<br/><em>Heaven and Earth</em></span></h1>
+    <p class="hero-sub">
+      <span data-lang="de" class="active">Romanische Schätze in Tramin und im Überetsch</span>
+      <span data-lang="it">Tesori romanici a Termeno e nell'Oltradige</span>
+      <span data-lang="en">Romanesque Treasures in Tramin and the Oltradige Region</span>
+    </p>
+    <p class="hero-desc">
+      <span data-lang="de" class="active">Auf ruhigen Seitenstraßen mit herrlichen Ausblicken zu den bedeutendsten romanischen Kirchen und Fresken zwischen Tramin und Eppan – Kunst, Landschaft und Geschichte auf zwei Rädern.</span>
+      <span data-lang="it">Su strade secondarie tranquille con viste meravigliose verso le più importanti chiese e affreschi romanici tra Termeno e Appiano – arte, paesaggio e storia su due ruote.</span>
+      <span data-lang="en">Along quiet side roads with magnificent views to the most significant Romanesque churches and frescoes between Tramin and Eppan – art, landscape and history on two wheels.</span>
+    </p>
+    <div class="hero-ctas">
+      <a href="#route" class="btn-primary"><span data-lang="de" class="active">Tour entdecken</span><span data-lang="it">Scopri la tour</span><span data-lang="en">Explore the tour</span></a>
+      <a href="#buchen" class="btn-outline"><span data-lang="de" class="active">Jetzt anmelden</span><span data-lang="it">Iscriviti ora</span><span data-lang="en">Register now</span></a>
+    </div>
+  </div>
+</div>
+
+<div class="stats-strip">
+  <div class="stat"><span class="stat-num">49 km</span><span class="stat-lbl"><span data-lang="de" class="active">Strecke</span><span data-lang="it">Distanza</span><span data-lang="en">Distance</span></span></div>
+  <div class="stat"><span class="stat-num">1.050 hm</span><span class="stat-lbl"><span data-lang="de" class="active">Höhenmeter</span><span data-lang="it">Dislivello</span><span data-lang="en">Elevation</span></span></div>
+  <div class="stat"><span class="stat-num">~8 Std.</span><span class="stat-lbl"><span data-lang="de" class="active">Dauer</span><span data-lang="it">Durata</span><span data-lang="en">Duration</span></span></div>
+  <div class="stat"><span class="stat-num">min. 5</span><span class="stat-lbl"><span data-lang="de" class="active">Personen</span><span data-lang="it">Persone</span><span data-lang="en">Persons</span></span></div>
+  <div class="stat"><span class="stat-num">€ 55</span><span class="stat-lbl"><span data-lang="de" class="active">Pro Person</span><span data-lang="it">A persona</span><span data-lang="en">Per person</span></span></div>
+</div>
+
+<!-- ROUTE -->
+<section id="route" class="sec">
+  <div class="reveal">
+    <p class="sec-label"><span data-lang="de" class="active">Die Stationen</span><span data-lang="it">Le tappe</span><span data-lang="en">The stops</span></p>
+    <h2 class="sec-title"><span data-lang="de" class="active">Eine Reise durch die Romanik</span><span data-lang="it">Un viaggio nel Romanico</span><span data-lang="en">A journey through Romanesque art</span></h2>
+    <div class="divider"></div>
+    <p class="sec-intro">
+      <span data-lang="de" class="active">Von Tramin über Kastelaz und Altenburg nach Eppan Berg, zur Burg Hocheppan und zurück über Kaltern – fast immer auf ruhigen Seitenstraßen, mit herrlichen Ausblicken über die Weinberge, das Überetsch und die Dolomiten.</span>
+      <span data-lang="it">Da Termeno attraverso Kastelaz e Altenburg fino ad Appiano Berg, a Castel d'Appiano e ritorno via Caldaro – quasi sempre su strade secondarie tranquille, con meravigliose viste sui vigneti, sull'Oltradige e sulle Dolomiti.</span>
+      <span data-lang="en">From Tramin via Kastelaz and Altenburg to Eppan Berg, Hocheppan Castle and back via Kaltern – almost always on quiet side roads, with magnificent views over the vineyards, the Oltradige and the Dolomites.</span>
+    </p>
+  </div>
+
+  <div class="route-grid">
+    <div>
+
+      <!-- 1 -->
+      <div class="station">
+        <div class="stn-num">1</div>
+        <div>
+          <div class="stn-sub"><span data-lang="de" class="active">Start · Tramin</span><span data-lang="it">Partenza · Termeno</span><span data-lang="en">Start · Tramin</span></div>
+          <div class="stn-name"><span data-lang="de" class="active">St. Valentin, Tramin</span><span data-lang="it">San Valentino, Termeno</span><span data-lang="en">St. Valentin, Tramin</span></div>
+          <p class="stn-desc">
+            <span data-lang="de" class="active">Treffpunkt um 8:30 Uhr beim Tourismusbüro Tramin. Gleich zu Beginn besuchen wir die Pfarrkirche St. Valentin – ein eindrucksvoller romanischer Auftakt mitten im Dorf, bevor wir auf die Räder steigen und auf ruhigen Seitenstraßen ins Überetsch aufbrechen.</span>
+            <span data-lang="it">Appuntamento alle ore 8:30 all'Ufficio Turistico di Termeno. Subito una visita alla chiesa parrocchiale di San Valentino – un suggestivo inizio romanico nel cuore del paese, prima di salire in sella e partire su strade secondarie nell'Oltradige.</span>
+            <span data-lang="en">Meeting at 8:30 a.m. at the Tramin Tourist Office. We begin with a visit to the parish church of St. Valentin – an impressive Romanesque opening right in the village, before we get on our bikes and set off on quiet side roads into the Oltradige.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="station">
+        <div class="stn-num">2</div>
+        <div>
+          <div class="stn-sub"><span data-lang="de" class="active">Kunststopp · Kastelaz</span><span data-lang="it">Tappa d'arte · Kastelaz</span><span data-lang="en">Art stop · Kastelaz</span></div>
+          <div class="stn-name">St. Jakob in Kastelaz</div>
+          <p class="stn-desc">
+            <span data-lang="de" class="active">Die Fresken von ca. 1220 gehören zu den ältesten im deutschsprachigen Raum. Drei Bildebenen erzählen die romanische Weltordnung: Christus als Pantokrator oben, die Apostel in der Mitte, das Bestiarium unten. Romanik in Reinform – und ringsum Rebzeilen mit weitem Blick ins Tal.</span>
+            <span data-lang="it">Gli affreschi di circa il 1220 sono tra i più antichi del mondo germanico. Tre livelli pittorici: Cristo Pantocratore in alto, gli apostoli al centro, il bestiario in basso. Romanico puro – e tutt'intorno vigneti con ampia vista sulla valle.</span>
+            <span data-lang="en">The frescoes of around 1220 are among the oldest in the German-speaking world. Three pictorial levels: Christ as Pantocrator above, apostles in the middle, bestiary below. Romanesque in its purest form – surrounded by vineyards with wide views over the valley.</span>
+          </p>
+          <p class="stn-note"><span data-lang="de" class="active">Eintritt: 2 € (freiwillig)</span><span data-lang="it">Ingresso: 2 € (facoltativo)</span><span data-lang="en">Entry: €2 (optional)</span></p>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="station">
+        <div class="stn-num">3</div>
+        <div>
+          <div class="stn-sub"><span data-lang="de" class="active">Aussichtspunkt · Kaltern</span><span data-lang="it">Panorama · Caldaro</span><span data-lang="en">Viewpoint · Kaltern</span></div>
+          <div class="stn-name"><span data-lang="de" class="active">Aussichtspunkt Altenburg</span><span data-lang="it">Belvedere di Altenburg</span><span data-lang="en">Altenburg Viewpoint</span></div>
+          <p class="stn-desc">
+            <span data-lang="de" class="active">Hoch über den Weinbergen bei Kaltern öffnet sich ein atemberaubender Blick auf den Kalterer See – den wärmsten Badesee der Alpen – eingebettet in Rebzeilen und sanfte Hügel. Ein stiller Moment, bevor uns die Seitenstraßen hinauf nach Eppan Berg führen.</span>
+            <span data-lang="it">In alto sopra i vigneti di Caldaro si apre una vista mozzafiato sul Lago di Caldaro – il lago balneabile più caldo delle Alpi – immerso tra filari di viti e dolci colline. Un momento di silenzio, prima che le strade secondarie ci portino su verso Appiano Berg.</span>
+            <span data-lang="en">High above the vineyards near Kaltern, a breathtaking view opens up over Lake Caldaro – the warmest bathing lake in the Alps – nestled among vine rows and gentle hills. A quiet moment before the side roads take us up towards Eppan Berg.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="station">
+        <div class="stn-num">4</div>
+        <div>
+          <div class="stn-sub"><span data-lang="de" class="active">Hochplateau · Eppan Berg</span><span data-lang="it">Altopiano · Appiano Berg</span><span data-lang="en">Plateau · Eppan Berg</span></div>
+          <div class="stn-name"><span data-lang="de" class="active">St. Justina & Ausblicke</span><span data-lang="it">Santa Giustina & panorami</span><span data-lang="en">St. Justina & panoramic views</span></div>
+          <p class="stn-desc">
+            <span data-lang="de" class="active">Auf ruhigen Seitenstraßen erklimmen wir das Hochplateau von Eppan Berg. Vorbei an der Kirche St. Justina öffnen sich weite Ausblicke über das Überetsch und Bozen – eine der schönsten Fernsichten der Region. Die Stille hier oben steht im herrlichen Kontrast zum geschäftigen Tal tief unten.</span>
+            <span data-lang="it">Su strade secondarie tranquille saliamo sull'altopiano di Appiano Berg. Passando accanto alla chiesa di Santa Giustina si aprono ampie vedute sull'Oltradige e su Bolzano – uno dei più bei panorami della regione. Il silenzio quassù è in meraviglioso contrasto con la valle trafficata in basso.</span>
+            <span data-lang="en">On quiet side roads we climb up to the Eppan Berg plateau. Passing by the church of St. Justina, wide views open up over the Oltradige and Bolzano – one of the finest panoramas in the region. The stillness up here contrasts beautifully with the busy valley far below.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="station">
+        <div class="stn-num">5</div>
+        <div>
+          <div class="stn-sub"><span data-lang="de" class="active">Höhepunkt · Missian/Eppan</span><span data-lang="it">Culmine · Missiano/Appiano</span><span data-lang="en">Highlight · Missian/Eppan</span></div>
+          <div class="stn-name">Burg Hocheppan</div>
+          <p class="stn-desc">
+            <span data-lang="de" class="active">Die Burgkapelle birgt einen der bedeutendsten byzantinischen Freskenschätze nördlich der Alpen. Eine Kapellführerin erklärt die Kunstwerke vor Ort. Der Anstieg (ca. 200 hm) ist auch mit E-Bike anspruchsvoll – wer möchte, lässt das Rad unten und genießt den Aufstieg zu Fuß. Mittagessen mit Panoramablick auf das Etschtal und die Dolomiten.</span>
+            <span data-lang="it">La cappella custodisce uno dei più importanti tesori di affreschi bizantini a nord delle Alpi. Una guida locale illustra le opere sul posto. La salita (circa 200 m) è impegnativa anche con l'e-bike. Pranzo con vista panoramica sulla Val d'Adige e sulle Dolomiti.</span>
+            <span data-lang="en">The castle chapel holds one of the most significant Byzantine fresco treasures north of the Alps. A local guide brings the artworks to life. The ascent (approx. 200 m) is challenging even on an e-bike. Lunch with panoramic views over the Adige Valley and Dolomites.</span>
+          </p>
+          <p class="stn-note"><span data-lang="de" class="active">Eintritt Burgkapelle: 6 € inkl. Führung (freiwillig)</span><span data-lang="it">Ingresso cappella: 6 € incl. visita guidata (facoltativo)</span><span data-lang="en">Chapel entry: €6 incl. guided tour (optional)</span></p>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="station">
+        <div class="stn-num">6</div>
+        <div>
+          <div class="stn-sub"><span data-lang="de" class="active">Abschluss · Kaltern</span><span data-lang="it">Finale · Caldaro</span><span data-lang="en">Finale · Kaltern</span></div>
+          <div class="stn-name"><span data-lang="de" class="active">Pause im Dorf oder am See</span><span data-lang="it">Pausa in paese o al lago</span><span data-lang="en">Break in the village or by the lake</span></div>
+          <p class="stn-desc">
+            <span data-lang="de" class="active">Nach einem langen, schönen Tag gönnen wir uns eine verdiente Pause in Kaltern – entweder im Dorf bei einem Eis oder einem Kaffee, oder unten am Kalterer See mit dem Blick aufs Wasser. Danach geht es auf ruhigen Seitenstraßen zurück nach Tramin.</span>
+            <span data-lang="it">Dopo una lunga e bella giornata ci concediamo una meritata pausa a Caldaro – in paese con un gelato o un caffè, oppure al Lago di Caldaro con vista sull'acqua. Poi si torna a Termeno su strade secondarie tranquille.</span>
+            <span data-lang="en">After a long, beautiful day we treat ourselves to a well-earned break in Kaltern – either in the village with an ice cream or coffee, or down by Lake Caldaro looking out over the water. Then it's back to Tramin on quiet side roads.</span>
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PANEL -->
+    <div class="tour-panel reveal">
+      <div class="panel-h"><span data-lang="de" class="active">Tourdetails</span><span data-lang="it">Dettagli tour</span><span data-lang="en">Tour details</span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Termine</span><span data-lang="it">Date</span><span data-lang="en">Dates</span></span><span class="dval"><span data-lang="de" class="active">Juni–Nov. 2026, freitags alle 2 Wochen</span><span data-lang="it">Giu–Nov 2026, ogni 2 venerdì</span><span data-lang="en">June–Nov 2026, every other Friday</span></span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Treffpunkt</span><span data-lang="it">Ritrovo</span><span data-lang="en">Meeting point</span></span><span class="dval"><span data-lang="de" class="active">Tourismusbüro Tramin, 8:30 Uhr</span><span data-lang="it">Uff. Turistico Termeno, ore 8:30</span><span data-lang="en">Tramin Tourist Office, 8:30 a.m.</span></span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Distanz</span><span data-lang="it">Distanza</span><span data-lang="en">Distance</span></span><span class="dval">ca. 49 km</span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Höhenmeter</span><span data-lang="it">Dislivello</span><span data-lang="en">Elevation</span></span><span class="dval">ca. 1.050 hm</span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Dauer</span><span data-lang="it">Durata</span><span data-lang="en">Duration</span></span><span class="dval">ca. 8 Std.</span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Schwierigkeit</span><span data-lang="it">Difficoltà</span><span data-lang="en">Difficulty</span></span><span class="dval"><span data-lang="de" class="active">Mittel</span><span data-lang="it">Media</span><span data-lang="en">Moderate</span></span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Teilnehmer</span><span data-lang="it">Partecipanti</span><span data-lang="en">Participants</span></span><span class="dval"><span data-lang="de" class="active">min. 5 Personen</span><span data-lang="it">min. 5 persone</span><span data-lang="en">min. 5 persons</span></span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">E-Bike Verleih</span><span data-lang="it">Noleggio e-bike</span><span data-lang="en">E-bike rental</span></span><span class="dval">E-Bike Dreams Tramin</span></div>
+      <div class="drow"><span class="dkey"><span data-lang="de" class="active">Sprachen</span><span data-lang="it">Lingue</span><span data-lang="en">Languages</span></span><span class="dval">DE · IT · EN</span></div>
+      <div class="price-box">
+        <div class="price-lbl"><span data-lang="de" class="active">Preis pro Person</span><span data-lang="it">Prezzo per persona</span><span data-lang="en">Price per person</span></div>
+        <div class="price-big">€ 55</div>
+        <div class="price-note"><span data-lang="de" class="active">inkl. Begleitung durch zertifizierten Radführer</span><span data-lang="it">incl. accompagnamento guida certificata</span><span data-lang="en">incl. accompaniment by certified cycling guide</span></div>
+      </div>
+      <ul class="incl">
+        <li><span data-lang="de" class="active">Begleitung & Erläuterungen durch Stefan Graziadei</span><span data-lang="it">Accompagnamento e spiegazioni di Stefan Graziadei</span><span data-lang="en">Accompaniment & commentary by Stefan Graziadei</span></li>
+        <li><span data-lang="de" class="active">Kapellführung auf Burg Hocheppan</span><span data-lang="it">Visita guidata cappella Castel d'Appiano</span><span data-lang="en">Chapel guide at Hocheppan Castle</span></li>
+        <li><span data-lang="de" class="active">Helmpflicht – bitte eigenen Helm mitbringen</span><span data-lang="it">Casco obbligatorio – portare il proprio casco</span><span data-lang="en">Helmet mandatory – please bring your own</span></li>
+        <li><span data-lang="de" class="active">Stornierung bei Schlechtwetter: volle Rückerstattung</span><span data-lang="it">Cancellazione per maltempo: rimborso completo</span><span data-lang="en">Cancellation for bad weather: full refund</span></li>
+      </ul>
+      <ul class="notincl">
+        <li><span data-lang="de" class="active">Eintritt St. Jakob Kastelaz: 2 €</span><span data-lang="it">Ingresso San Giacomo Kastelaz: 2 €</span><span data-lang="en">Entry St. Jakob Kastelaz: €2</span></li>
+        <li><span data-lang="de" class="active">Eintritt Burgkapelle Hocheppan: 6 €</span><span data-lang="it">Ingresso cappella Castel d'Appiano: 6 €</span><span data-lang="en">Entry Hocheppan chapel: €6</span></li>
+        <li><span data-lang="de" class="active">Persönliche Konsumationen (Mittagessen, Eis, Kaffee)</span><span data-lang="it">Consumazioni personali (pranzo, gelato, caffè)</span><span data-lang="en">Personal consumptions (lunch, ice cream, coffee)</span></li>
+      </ul>
+      <a href="#buchen" class="panel-cta"><span data-lang="de" class="active">Jetzt anmelden</span><span data-lang="it">Iscriviti ora</span><span data-lang="en">Register now</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="reveal">
+    <p class="sec-label"><span data-lang="de" class="active">Ihr Guide</span><span data-lang="it">La vostra guida</span><span data-lang="en">Your guide</span></p>
+    <h2 class="sec-title">Stefan Graziadei</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-img reveal"></div>
+    <div class="about-text reveal">
+      <div class="divider"></div>
+      <p>
+        <span data-lang="de" class="active">Als zertifizierter Radführer (Italian Cycling Academy) mit Fortbildung in Sakralkunst begleite ich euch durch die verborgenen Schätze der Südtiroler Weinstraße – auf ruhigen Seitenstraßen, mit weiten Ausblicken, in kleinen Gruppen.</span>
+        <span data-lang="it">Come guida ciclistica certificata (Italian Cycling Academy) con formazione in arte sacra, vi accompagno attraverso i tesori nascosti della Strada del Vino altoatesina – su strade secondarie tranquille, con ampie vedute, in piccoli gruppi.</span>
+        <span data-lang="en">As a certified cycling guide (Italian Cycling Academy) with training in sacred art, I lead you through the hidden treasures of the South Tyrolean Wine Road – on quiet side roads, with wide open views, in small groups.</span>
+      </p>
+      <p>
+        <span data-lang="de" class="active">Ich wohne in Kaltern und kenne diese Landschaft aus dem Alltag. Jahrelange Erfahrung als professioneller Tourenführer in Frankreich hat meinen Blick für das Wesentliche geschärft: Geschichte ist kein Museum – sie lebt in jedem Stein, jedem Fresko, jedem Rebhang.</span>
+        <span data-lang="it">Vivo a Caldaro e conosco questo paesaggio dalla vita di ogni giorno. Anni di esperienza come guida professionale in Francia hanno affinato il mio sguardo per l'essenziale: la storia non è un museo – vive in ogni pietra, ogni affresco, ogni vigneto.</span>
+        <span data-lang="en">I live in Kaltern and know this landscape from everyday life. Years of experience as a professional tour guide in France have sharpened my eye for what matters: history is not a museum – it lives in every stone, every fresco, every hillside vineyard.</span>
+      </p>
+      <div class="certs">
+        <div class="cert">
+          <div class="cert-lbl"><span data-lang="de" class="active">Zertifizierung</span><span data-lang="it">Certificazione</span><span data-lang="en">Certification</span></div>
+          <div class="cert-val">Italian Cycling Academy</div>
+        </div>
+        <div class="cert">
+          <div class="cert-lbl"><span data-lang="de" class="active">Fortbildung</span><span data-lang="it">Formazione</span><span data-lang="en">Training</span></div>
+          <div class="cert-val"><span data-lang="de" class="active">Sakralkunst</span><span data-lang="it">Arte sacra</span><span data-lang="en">Sacred art</span></div>
+        </div>
+        <div class="cert">
+          <div class="cert-lbl"><span data-lang="de" class="active">Sprachen</span><span data-lang="it">Lingue</span><span data-lang="en">Languages</span></div>
+          <div class="cert-val">DE · IT · EN · FR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="buchen" class="sec">
+  <div class="reveal">
+    <p class="sec-label"><span data-lang="de" class="active">Anmeldung</span><span data-lang="it">Iscrizione</span><span data-lang="en">Registration</span></p>
+    <h2 class="sec-title"><span data-lang="de" class="active">Bereit für die Tour?</span><span data-lang="it">Pronti per il tour?</span><span data-lang="en">Ready for the tour?</span></h2>
+  </div>
+  <div class="book-grid">
+    <div class="book-aside reveal">
+      <div class="divider"></div>
+      <p>
+        <span data-lang="de" class="active">Anmeldung bis 13:00 Uhr des Vortags direkt beim Tourismusbüro Tramin – per Telefon, WhatsApp oder E-Mail.</span>
+        <span data-lang="it">Iscrizione entro le ore 13:00 del giorno precedente direttamente all'Ufficio Turistico di Termeno – per telefono, WhatsApp o e-mail.</span>
+        <span data-lang="en">Registration by 1:00 p.m. the day before directly at the Tramin Tourist Office – by phone, WhatsApp or email.</span>
+      </p>
+      <ul class="ilist">
+        <li><span data-lang="de" class="active">Juni–November 2026, freitags alle zwei Wochen</span><span data-lang="it">Giugno–novembre 2026, ogni due venerdì</span><span data-lang="en">June–November 2026, every other Friday</span></li>
+        <li><span data-lang="de" class="active">Treffpunkt: Tourismusbüro Tramin, 8:30 Uhr</span><span data-lang="it">Ritrovo: Ufficio Turistico Termeno, ore 8:30</span><span data-lang="en">Meeting: Tramin Tourist Office, 8:30 a.m.</span></li>
+        <li><span data-lang="de" class="active">Mindestens 5 Personen</span><span data-lang="it">Minimo 5 persone</span><span data-lang="en">Minimum 5 persons</span></li>
+        <li><span data-lang="de" class="active">E-Bike erforderlich · Verleih: E-Bike Dreams Tramin</span><span data-lang="it">E-bike obbligatoria · Noleggio: E-Bike Dreams Termeno</span><span data-lang="en">E-bike required · Rental: E-Bike Dreams Tramin</span></li>
+        <li><span data-lang="de" class="active">Helmpflicht während der gesamten Tour</span><span data-lang="it">Casco obbligatorio per tutto il tour</span><span data-lang="en">Helmet mandatory throughout the entire tour</span></li>
+        <li><span data-lang="de" class="active">Stornierung bei Schlechtwetter: volle Rückerstattung</span><span data-lang="it">Cancellazione per maltempo: rimborso completo</span><span data-lang="en">Cancellation for bad weather: full refund</span></li>
+      </ul>
+      <div class="contact-box">
+        <h4><span data-lang="de" class="active">Tourismusbüro Tramin</span><span data-lang="it">Ufficio Turistico Termeno</span><span data-lang="en">Tramin Tourist Office</span></h4>
+        <p>
+          Tel. <a href="tel:+390471860131">+39 0471 860131</a><br/>
+          WhatsApp <a href="https://wa.me/393487948080">+39 348 7948080</a><br/>
+          <a href="mailto:info@tramin.com">info@tramin.com</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-card reveal">
+      <div id="fi">
+        <div class="form-title"><span data-lang="de" class="active">Voranfrage senden</span><span data-lang="it">Invia una pre-richiesta</span><span data-lang="en">Send a pre-enquiry</span></div>
+        <div class="frow">
+          <div class="fg"><label><span data-lang="de" class="active">Vorname</span><span data-lang="it">Nome</span><span data-lang="en">First name</span></label><input type="text" id="fname" /></div>
+          <div class="fg"><label><span data-lang="de" class="active">Nachname</span><span data-lang="it">Cognome</span><span data-lang="en">Last name</span></label><input type="text" id="lname" /></div>
+        </div>
+        <div class="fg"><label>E-Mail *</label><input type="email" id="email" /></div>
+        <div class="frow">
+          <div class="fg">
+            <label><span data-lang="de" class="active">Wunschdatum</span><span data-lang="it">Data desiderata</span><span data-lang="en">Preferred date</span></label>
+            <input type="date" id="date" min="2026-06-01" max="2026-11-30" />
+          </div>
+          <div class="fg">
+            <label><span data-lang="de" class="active">Personen</span><span data-lang="it">Persone</span><span data-lang="en">Persons</span></label>
+            <select id="persons"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8+</option></select>
+          </div>
+        </div>
+        <div class="fg">
+          <label><span data-lang="de" class="active">E-Bike Verleih benötigt?</span><span data-lang="it">Noleggio e-bike necessario?</span><span data-lang="en">E-bike rental needed?</span></label>
+          <select id="ebike">
+            <option value="nein"><span data-lang="de" class="active">Nein, eigenes E-Bike</span><span data-lang="it">No, e-bike propria</span><span data-lang="en">No, own e-bike</span></option>
+            <option value="ja"><span data-lang="de" class="active">Ja – E-Bike Dreams Tramin</span><span data-lang="it">Sì – E-Bike Dreams Termeno</span><span data-lang="en">Yes – E-Bike Dreams Tramin</span></option>
+          </select>
+        </div>
+        <div class="fg"><label><span data-lang="de" class="active">Nachricht</span><span data-lang="it">Messaggio</span><span data-lang="en">Message</span></label><textarea id="msg"></textarea></div>
+        <button class="fsub" onclick="submitForm()"><span data-lang="de" class="active">Anfrage senden</span><span data-lang="it">Invia richiesta</span><span data-lang="en">Send enquiry</span></button>
+        <p class="form-note">
+          <span data-lang="de" class="active">Die verbindliche Anmeldung erfolgt direkt beim Tourismusbüro Tramin bis 13:00 Uhr des Vortags.</span>
+          <span data-lang="it">L'iscrizione definitiva avviene direttamente all'Ufficio Turistico di Termeno entro le ore 13:00 del giorno precedente.</span>
+          <span data-lang="en">Binding registration takes place directly at the Tramin Tourist Office by 1:00 p.m. the day before.</span>
+        </p>
+      </div>
+      <div class="success" id="fs">
+        <div class="ck">✓</div>
+        <h3><span data-lang="de" class="active">Vielen Dank!</span><span data-lang="it">Grazie mille!</span><span data-lang="en">Thank you!</span></h3>
+        <p><span data-lang="de" class="active">Ihre Anfrage ist eingegangen. Für die verbindliche Anmeldung wenden Sie sich bitte an das Tourismusbüro Tramin.</span><span data-lang="it">La sua richiesta è stata ricevuta. Per l'iscrizione definitiva contatti l'Ufficio Turistico di Termeno.</span><span data-lang="en">Your enquiry has been received. For binding registration please contact the Tramin Tourist Office.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <span class="ft-brand">Zwischen Himmel und Erde</span>
+    <span data-lang="de" class="active">Romanik-Radtour · Südtiroler Weinstraße · Stefan Graziadei, Kaltern</span>
+    <span data-lang="it">Tour romanica in bici · Strada del Vino · Stefan Graziadei, Caldaro</span>
+    <span data-lang="en">Romanesque Cycling Tour · South Tyrolean Wine Road · Stefan Graziadei, Kaltern</span>
+  </div>
+  <div style="text-align:right;line-height:1.9">© 2026<br/><a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('[data-lang]').forEach(el => el.classList.toggle('active', el.dataset.lang === lang));
+    document.querySelectorAll('.lang-btn').forEach((b,i) => b.classList.toggle('active', ['de','it','en'][i] === lang));
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal, .station').forEach(el => io.observe(el));
+  document.querySelectorAll('.station').forEach((el,i) => el.style.transitionDelay = `${i*0.11}s`);
+  function submitForm() {
+    if (!document.getElementById('email').value.trim()) { document.getElementById('email').focus(); return; }
+    document.getElementById('fi').style.display = 'none';
+    document.getElementById('fs').style.display = 'block';
+  }
+</script>
+</body>
+</html>
